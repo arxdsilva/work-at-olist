@@ -4,6 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+
+	// pq is the postgres driver
+	_ "github.com/lib/pq"
 )
 
 type Postgre struct {
