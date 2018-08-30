@@ -1,4 +1,4 @@
-package postgre
+package postgres
 
 import (
 	"database/sql"
@@ -31,6 +31,6 @@ func New() (postg *Postgre, err error) {
 	return
 }
 
-func SaveCall() error {
+func (p *Postgre) SaveCall() error {
 	return nil
 }
