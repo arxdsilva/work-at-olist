@@ -13,6 +13,11 @@ func Calculate(start, end time.Time) (r float64, err error) {
 	if inv := start.Sub(end); inv.Minutes() > 0 {
 		return r, errors.New("Start time cannot be after the call has ended")
 	}
+	startHour := start.Hour()
+	endHour := end.Hour()
+	if (startHour >= 22) && (endHour <= 6) {
+		return 0.36, err
+	}
 	timeUsed := end.Sub(start)
 	minutesUsed := timeUsed.Minutes()
 	r = 0.36 + (0.09 * minutesUsed)
