@@ -18,8 +18,14 @@ func Calculate(start, end time.Time) (r float64, err error) {
 	if (startHour >= 22) && (endHour <= 6) {
 		return 0.36, err
 	}
+	var unbillableTime float64
+	if (end.Hour() >= 22) || (end.Hour() <= 6) {
+		u := time.Date(end.Year(), end.Month(), end.Day(), 22, 0, 0, 0, time.UTC)
+		endDuration := end.Sub(u)
+		unbillableTime = endDuration.Minutes()
+	}
 	timeUsed := end.Sub(start)
 	minutesUsed := timeUsed.Minutes()
-	r = 0.36 + (0.09 * minutesUsed)
+	r = 0.36 + (0.09 * (minutesUsed - unbillableTime))
 	return r, err
 }
