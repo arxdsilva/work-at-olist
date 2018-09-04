@@ -20,3 +20,11 @@ func (s *S) TestCalculateBillOnInvalidEndTime(c *check.C) {
 	_, err := Calculate(start, end)
 	c.Assert(err, check.NotNil)
 }
+
+func (s *S) TestCalculateBillOnLowerRateHours(c *check.C) {
+	start := time.Date(2018, 9, 4, 22, 1, 0, 651387237, time.UTC)
+	end := time.Date(2018, 9, 5, 5, 1, 0, 651387237, time.UTC)
+	toPay, err := Calculate(start, end)
+	c.Assert(err, check.IsNil)
+	c.Assert(toPay, check.Equals, 0.36)
+}
