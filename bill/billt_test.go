@@ -37,6 +37,14 @@ func (s *S) TestCalculateBillOnMixedHours(c *check.C) {
 	c.Assert(toPay, check.Equals, 5.76)
 }
 
+func (s *S) TestCalculateBillOnEarlyHours(c *check.C) {
+	start := time.Date(2018, time.September, 4, 5, 0, 0, 0, time.UTC)
+	end := time.Date(2018, time.September, 4, 6, 30, 0, 0, time.UTC)
+	toPay, err := Calculate(start, end)
+	c.Assert(err, check.IsNil)
+	c.Assert(toPay, check.Equals, float64(3.06))
+}
+
 func (s *S) TestStartsAfterUnbillableHours(c *check.C) {
 	start := time.Date(2018, time.September, 4, 23, 0, 0, 0, time.UTC)
 	c.Assert(startsOnUnbillableHours(start), check.Equals, true)
