@@ -125,3 +125,9 @@ func (s *S) TestUnbHoursBetweenStartAndEndWithEndOnSameDay(c *check.C) {
 	end := time.Date(2018, time.September, 4, 23, 0, 0, 0, time.UTC)
 	c.Assert(unbHoursBetweenStartAndEnd(start, end), check.Equals, false)
 }
+
+func (s *S) TestUnbillableTimeBetweenSE(c *check.C) {
+	start := time.Date(2018, time.September, 4, 21, 0, 0, 0, time.UTC)
+	end := time.Date(2018, time.September, 5, 23, 0, 0, 0, time.UTC)
+	c.Assert(unbillableTimeBetweenSE(start, end), check.Equals, 480)
+}
