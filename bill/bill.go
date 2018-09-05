@@ -19,10 +19,9 @@ func Calculate(start, end time.Time) (r float64, err error) {
 		return 0.36, err
 	}
 	var unbillableTime float64
-	if (end.Hour() >= 22) || (end.Hour() <= 6) {
-		u := time.Date(end.Year(), end.Month(), end.Day(), 22, 0, 0, 0, time.UTC)
-		endDuration := end.Sub(u)
-		unbillableTime = endDuration.Minutes()
+	switch {
+	case startsOnUnbillableHours(start):
+		unbillableTime = unbillableTimeAtStart(start, end)
 	}
 	timeUsed := end.Sub(start)
 	minutesUsed := timeUsed.Minutes()
@@ -30,7 +29,7 @@ func Calculate(start, end time.Time) (r float64, err error) {
 	return r, err
 }
 
-func startsAfterUnbillableHours(start time.Time) bool {
+func startsOnUnbillableHours(start time.Time) bool {
 	unbillableTimeStart := time.Date(start.Year(), start.Month(), start.Day(), 22, 0, 0, 0, time.UTC)
 	unbillableTimeEnd := time.Date(start.Year(), start.Month(), start.Day(), 6, 0, 0, 0, time.UTC)
 	if start.After(unbillableTimeStart) {

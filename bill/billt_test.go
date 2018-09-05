@@ -39,15 +39,15 @@ func (s *S) TestCalculateBillOnMixedHours(c *check.C) {
 
 func (s *S) TestStartsAfterUnbillableHours(c *check.C) {
 	start := time.Date(2018, time.September, 4, 23, 0, 0, 0, time.UTC)
-	c.Assert(startsAfterUnbillableHours(start), check.Equals, true)
+	c.Assert(startsOnUnbillableHours(start), check.Equals, true)
 }
 
 func (s *S) TestStartsAfterUnbillableHoursNextDay(c *check.C) {
 	start := time.Date(2018, time.September, 4, 2, 0, 0, 0, time.UTC)
-	c.Assert(startsAfterUnbillableHours(start), check.Equals, true)
+	c.Assert(startsOnUnbillableHours(start), check.Equals, true)
 }
 
 func (s *S) TestStartsAfterUnbillableHoursMustBeFalse(c *check.C) {
 	start := time.Date(2018, time.September, 4, 21, 0, 0, 0, time.UTC)
-	c.Assert(startsAfterUnbillableHours(start), check.Equals, false)
+	c.Assert(startsOnUnbillableHours(start), check.Equals, false)
 }
