@@ -2,6 +2,7 @@ package bill
 
 import (
 	"errors"
+	"math"
 	"time"
 )
 
@@ -29,7 +30,7 @@ func Calculate(start, end time.Time) (r float64, err error) {
 	}
 	timeUsed := end.Sub(start)
 	minutesUsed := timeUsed.Minutes()
-	r = 0.36 + (0.09 * (minutesUsed - unbillableTime))
+	r = round(0.36+(0.09*(minutesUsed-unbillableTime)), 100)
 	return r, err
 }
 
@@ -95,4 +96,8 @@ func unbHoursBetweenStartAndEnd(s, e time.Time) bool {
 func unbillableTimeBetweenSE(s, e time.Time) float64 {
 	days := e.Day() - s.Day()
 	return float64(days * 8 * 60)
+}
+
+func round(x, unit float64) float64 {
+	return math.Round(x*unit) / unit
 }
