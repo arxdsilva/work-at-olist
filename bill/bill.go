@@ -39,3 +39,13 @@ func startsOnUnbillableHours(start time.Time) bool {
 	}
 	return false
 }
+
+func unbillableTimeAtStart(s, e time.Time) (unbillableTime float64) {
+	unbillableTimeEnd := time.Date(s.Year(), s.Month(), s.Day()+1, 6, 0, 0, 0, time.UTC)
+	if e.Before(unbillableTimeEnd) {
+		unbillableDuration := e.Sub(s)
+		return unbillableDuration.Minutes()
+	}
+	unbillableDuration := unbillableTimeEnd.Sub(s)
+	return unbillableDuration.Minutes()
+}
