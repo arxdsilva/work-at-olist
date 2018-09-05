@@ -22,6 +22,10 @@ func Calculate(start, end time.Time) (r float64, err error) {
 	switch {
 	case startsOnUnbillableHours(start):
 		unbillableTime = unbillableTimeAtStart(start, end)
+	case endsOnUnbillableHours(end):
+		unbillableTime = unbillableTimeAtEnd(start, end)
+	case unbHoursBetweenStartAndEnd(start, end):
+		unbillableTime = unbillableTimeBetweenSE(start, end)
 	}
 	timeUsed := end.Sub(start)
 	minutesUsed := timeUsed.Minutes()
