@@ -15,7 +15,7 @@ func Calculate(start, end time.Time) (r float64, err error) {
 	}
 	startHour := start.Hour()
 	endHour := end.Hour()
-	if (startHour >= 22) && (endHour <= 6) {
+	if (startHour >= 22) && (endHour <= 6) && (start.Day() != end.Day()) {
 		return 0.36, err
 	}
 	var unbillableTime float64
