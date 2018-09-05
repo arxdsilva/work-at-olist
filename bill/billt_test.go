@@ -51,3 +51,10 @@ func (s *S) TestStartsAfterUnbillableHoursMustBeFalse(c *check.C) {
 	start := time.Date(2018, time.September, 4, 21, 0, 0, 0, time.UTC)
 	c.Assert(startsOnUnbillableHours(start), check.Equals, false)
 }
+
+func (s *S) TestUnbillableTimeAtStart(c *check.C) {
+	start := time.Date(2018, time.September, 4, 22, 0, 0, 0, time.UTC)
+	end := time.Date(2018, time.September, 4, 22, 30, 0, 0, time.UTC)
+	unbTime := unbillableTimeAtStart(start, end)
+	c.Assert(unbTime, check.Equals, float64(30))
+}
