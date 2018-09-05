@@ -107,3 +107,9 @@ func (s *S) TestUnbHoursBetweenStartAndEnd(c *check.C) {
 	end := time.Date(2018, time.September, 5, 7, 0, 0, 0, time.UTC)
 	c.Assert(unbHoursBetweenStartAndEnd(start, end), check.Equals, true)
 }
+
+func (s *S) TestUnbHoursBetweenStartAndEndWithInvalidStart(c *check.C) {
+	start := time.Date(2018, time.September, 4, 23, 0, 0, 0, time.UTC)
+	end := time.Date(2018, time.September, 5, 7, 0, 0, 0, time.UTC)
+	c.Assert(unbHoursBetweenStartAndEnd(start, end), check.Equals, false)
+}
