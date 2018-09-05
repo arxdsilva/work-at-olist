@@ -62,3 +62,8 @@ func endsOnUnbillableHours(end time.Time) bool {
 	}
 	return false
 }
+
+func unbillableTimeAtEnd(s, e time.Time) (unbillableTime float64) {
+
+	return unbillableTime
+}
