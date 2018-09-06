@@ -22,7 +22,7 @@ func (s *Server) Listen() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.GET("/call", call)
-	e.POST("/call", call)
+	e.POST("/records", saveRecord)
 	e.Logger.Fatal(e.Start(s.Port))
 }
 
