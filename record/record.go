@@ -27,5 +27,15 @@ func (r *Record) DataChecks() (err error) {
 	if (r.Type == "start") && ((r.Source == "") || (r.Destination == "")) {
 		return errors.New("Record start cannot have source or destination nil")
 	}
+	if (r.Type == "start") && (invalidPhone(r.Source) || invalidPhone(r.Destination)) {
+		return errors.New("Invalid record start source or destination numbers")
+	}
 	return
+}
+
+func invalidPhone(p string) bool {
+	if (len(p) > 11) || (len(p) < 10) {
+		return true
+	}
+	return false
 }
