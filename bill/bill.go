@@ -6,6 +6,12 @@ import (
 	"time"
 )
 
+type Bill struct {
+	SubscriberNumber int    `json:"subscriber"`
+	Month            string `json:"reference_period"` // only after it has ended
+	Calls            []Call `json:"calls"`
+}
+
 // Calculate makes the math
 // of the time to be charged by the telephone records
 // 600 > 2200: 0.36 + 0.09/min
