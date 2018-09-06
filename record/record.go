@@ -7,8 +7,8 @@ type Record struct {
 	Type        string `json:"type"`
 	TimeStamp   string `json:"timestamp"`
 	CallID      string `json:"call_id"`
-	Source      int    `json:"source"`
-	Sestination int    `json:"destination"`
+	Source      string `json:"source"`
+	Destination string `json:"destination"`
 }
 
 func (r *Record) DataChecks() (err error) {
