@@ -24,5 +24,8 @@ func (r *Record) DataChecks() (err error) {
 	if r.CallID == "" {
 		return errors.New("Record call_id cannot be nil")
 	}
+	if (r.Type == "start") && ((r.Source == "") || (r.Destination == "")) {
+		return errors.New("Record start cannot have source or destination nil")
+	}
 	return
 }
