@@ -1,6 +1,9 @@
 package record
 
-import "errors"
+import (
+	"errors"
+	"strconv"
+)
 
 type Record struct {
 	ID          string `json:"id"`
@@ -34,6 +37,9 @@ func (r *Record) DataChecks() (err error) {
 }
 
 func invalidPhone(p string) bool {
+	if _, err := strconv.Atoi(p); err != nil {
+		return true
+	}
 	if (len(p) > 11) || (len(p) < 10) {
 		return true
 	}

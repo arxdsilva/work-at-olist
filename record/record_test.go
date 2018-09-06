@@ -59,6 +59,18 @@ func TestRecord_DataChecks(t *testing.T) {
 				Destination: "1234567890",
 			},
 		},
+		{
+			name:    "Invalid start record phone",
+			wantErr: true,
+			fields: fields{
+				ID:          "123",
+				Type:        "start",
+				TimeStamp:   "something",
+				CallID:      "someID",
+				Source:      "1234567aaa",
+				Destination: "1234567890",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
