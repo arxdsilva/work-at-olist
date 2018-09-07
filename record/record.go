@@ -7,7 +7,7 @@ import (
 )
 
 type Record struct {
-	ID          string `json:"id"`
+	ID          string
 	Type        string `json:"type"`
 	TimeStamp   string `json:"timestamp"`
 	CallID      string `json:"call_id"`
@@ -17,9 +17,6 @@ type Record struct {
 }
 
 func (r *Record) DataChecks() (err error) {
-	if r.ID == "" {
-		return errors.New("Record ID cannot be nil")
-	}
 	if (r.Type == "") || ((r.Type != "start") && (r.Type != "end")) {
 		return errors.New("Invalid record type")
 	}

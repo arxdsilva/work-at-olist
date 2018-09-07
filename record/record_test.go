@@ -28,15 +28,6 @@ func TestRecord_DataChecks(t *testing.T) {
 			},
 		},
 		{
-			name:    "Invalid end record",
-			wantErr: true,
-			fields: fields{
-				Type:      "end",
-				TimeStamp: "2016-02-29T12:00:00Z",
-				CallID:    "someID",
-			},
-		},
-		{
 			name:    "Valid start record",
 			wantErr: false,
 			fields: fields{
@@ -97,7 +88,7 @@ func TestRecord_DataChecks(t *testing.T) {
 				Month:       tt.fields.Month,
 			}
 			if err := r.DataChecks(); (err != nil) != tt.wantErr {
-				t.Errorf("Record.DataChecks() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Record.DataChecks() error = %v, wantErr %v, name: %v", err, tt.wantErr, tt.name)
 			}
 		})
 	}
