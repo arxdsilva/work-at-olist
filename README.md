@@ -22,5 +22,6 @@ This project is the test to work at Olist by @arxdsilva. This is a API that calc
 - Text editor: VS Code
 - Libraries:
     - [Echo web framework](https://github.com/labstack/echo)
+    - [Check.v1](gopkg.in/check.v1)
 
 
