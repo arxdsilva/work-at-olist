@@ -3,6 +3,7 @@ package record
 import (
 	"errors"
 	"strconv"
+	"time"
 )
 
 type Record struct {
@@ -12,6 +13,7 @@ type Record struct {
 	CallID      string `json:"call_id"`
 	Source      string `json:"source"`
 	Destination string `json:"destination"`
+	Month       int
 }
 
 func (r *Record) DataChecks() (err error) {
@@ -33,6 +35,11 @@ func (r *Record) DataChecks() (err error) {
 	if (r.Type == "start") && (invalidPhone(r.Source) || invalidPhone(r.Destination)) {
 		return errors.New("Invalid record start source or destination numbers")
 	}
+	t, err := time.Parse(time.RFC3339, r.TimeStamp)
+	if err != nil {
+		return
+	}
+	r.Month = int(t.Month())
 	return
 }
 
