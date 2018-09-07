@@ -38,3 +38,21 @@ func (p Postgre) SaveRecord(r record.Record) (err error) {
 	_, err = p.db.Exec(query, r.ID, r.Type, r.TimeStamp, r.CallID, r.Source, r.Destination, r.Month)
 	return err
 }
+
+func (p Postgre) UUIDFromStart(r record.Record) (uuid string, err error) {
+	query := "select id from records where r_source = $1 and destination = $2 and month = $3 and year = $4 and r_type = $5"
+	rows, err := p.db.Query(query, r.Source, r.Destination, r.Month, r.Year, "start")
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		if rows.Next() {
+			continue
+		}
+		if err = rows.Scan(&uuid); err != nil {
+			return
+		}
+	}
+	return
+}
