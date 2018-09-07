@@ -7,10 +7,6 @@ import (
 	"github.com/labstack/echo"
 )
 
-func call(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
-}
-
 func (s *Server) saveRecord(c echo.Context) (err error) {
 	r := new(record.Record)
 	err = c.Bind(r)
