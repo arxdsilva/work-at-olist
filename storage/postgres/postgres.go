@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/arxdsilva/olist/record"
+
 	// pq is the postgres driver
 	_ "github.com/lib/pq"
 )
@@ -31,6 +33,6 @@ func New() (postg *Postgre, err error) {
 	return
 }
 
-func (p *Postgre) SaveCall() error {
+func (p Postgre) SaveRecord(r record.Record) (err error) {
 	return nil
 }

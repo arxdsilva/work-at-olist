@@ -1,5 +1,9 @@
 package storage
 
+import (
+	"github.com/arxdsilva/olist/record"
+)
+
 type Storage interface {
-	SaveCall() error
+	SaveRecord(record.Record) error
 }
