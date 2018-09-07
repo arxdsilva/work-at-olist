@@ -11,7 +11,7 @@ func call(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello, World!")
 }
 
-func saveRecord(c echo.Context) (err error) {
+func (s *Server) saveRecord(c echo.Context) (err error) {
 	r := new(record.Record)
 	err = c.Bind(r)
 	if err != nil {
