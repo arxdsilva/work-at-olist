@@ -29,3 +29,21 @@ func (s *S) TestServer_saveRecord(c *check.C) {
 	c.Assert(sv.saveRecord(ctx), check.IsNil)
 	c.Assert(http.StatusCreated, check.Equals, rec.Code)
 }
+
+func (s *S) TestServer_saveRecordWithInvalidData(c *check.C) {
+	recordJSON := `{
+		"id": "123",
+		"type": "start",
+		"timestamp":"",
+		"call_id": "qualquercoisa",
+		"source": "1515151515",
+		"destination": "1515151515"
+	}`
+	e := echo.New()
+	req := httptest.NewRequest(echo.POST, "/records", strings.NewReader(recordJSON))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	ctx := e.NewContext(req, rec)
+	sv := &Server{Storage: storage.FakeStorage{}}
+	c.Assert(sv.saveRecord(ctx), check.NotNil)
+}
