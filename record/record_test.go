@@ -10,6 +10,7 @@ func TestRecord_DataChecks(t *testing.T) {
 		CallID      string
 		Source      string
 		Destination string
+		Month       int
 	}
 	tests := []struct {
 		name    string
@@ -22,7 +23,7 @@ func TestRecord_DataChecks(t *testing.T) {
 			fields: fields{
 				ID:        "123",
 				Type:      "end",
-				TimeStamp: "something",
+				TimeStamp: "2016-02-29T12:00:00Z",
 				CallID:    "someID",
 			},
 		},
@@ -31,7 +32,7 @@ func TestRecord_DataChecks(t *testing.T) {
 			wantErr: true,
 			fields: fields{
 				Type:      "end",
-				TimeStamp: "something",
+				TimeStamp: "2016-02-29T12:00:00Z",
 				CallID:    "someID",
 			},
 		},
@@ -41,7 +42,7 @@ func TestRecord_DataChecks(t *testing.T) {
 			fields: fields{
 				ID:          "123",
 				Type:        "start",
-				TimeStamp:   "something",
+				TimeStamp:   "2016-02-29T12:00:00Z",
 				CallID:      "someID",
 				Source:      "1234567890",
 				Destination: "1234567890",
@@ -53,7 +54,7 @@ func TestRecord_DataChecks(t *testing.T) {
 			fields: fields{
 				ID:          "123",
 				Type:        "start",
-				TimeStamp:   "something",
+				TimeStamp:   "2016-02-29T12:00:00Z",
 				CallID:      "someID",
 				Source:      "1234567",
 				Destination: "1234567890",
@@ -65,9 +66,21 @@ func TestRecord_DataChecks(t *testing.T) {
 			fields: fields{
 				ID:          "123",
 				Type:        "start",
-				TimeStamp:   "something",
+				TimeStamp:   "2016-02-29T12:00:00Z",
 				CallID:      "someID",
 				Source:      "1234567aaa",
+				Destination: "1234567890",
+			},
+		},
+		{
+			name:    "Invalid start record time",
+			wantErr: true,
+			fields: fields{
+				ID:          "123",
+				Type:        "start",
+				TimeStamp:   "invalid",
+				CallID:      "someID",
+				Source:      "1234567890",
 				Destination: "1234567890",
 			},
 		},
@@ -81,6 +94,7 @@ func TestRecord_DataChecks(t *testing.T) {
 				CallID:      tt.fields.CallID,
 				Source:      tt.fields.Source,
 				Destination: tt.fields.Destination,
+				Month:       tt.fields.Month,
 			}
 			if err := r.DataChecks(); (err != nil) != tt.wantErr {
 				t.Errorf("Record.DataChecks() error = %v, wantErr %v", err, tt.wantErr)
