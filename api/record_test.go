@@ -13,7 +13,6 @@ import (
 
 func (s *S) TestServer_saveRecord(c *check.C) {
 	recordJSON := `{
-		"id": "123",
 		"type": "start",
 		"timestamp":"2016-02-29T12:00:00Z",
 		"call_id": "qualquercoisa",
@@ -32,7 +31,6 @@ func (s *S) TestServer_saveRecord(c *check.C) {
 
 func (s *S) TestServer_saveRecordWithInvalidData(c *check.C) {
 	recordJSON := `{
-		"id": "123",
 		"type": "start",
 		"timestamp":"",
 		"call_id": "qualquercoisa",
