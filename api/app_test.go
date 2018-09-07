@@ -4,15 +4,14 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
-	"testing"
 
-	"github.com/stretchr/testify/assert"
+	check "gopkg.in/check.v1"
 
 	"github.com/arxdsilva/olist/storage"
 	"github.com/labstack/echo"
 )
 
-func TestServer_saveRecord(t *testing.T) {
+func (s *S) TestServer_saveRecord(c *check.C) {
 	recordJSON := `{
 		"id": "123",
 		"type": "start",
@@ -25,9 +24,8 @@ func TestServer_saveRecord(t *testing.T) {
 	req := httptest.NewRequest(echo.POST, "/records", strings.NewReader(recordJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-	s := &Server{Storage: storage.FakeStorage{}}
-	if assert.NoError(t, s.saveRecord(c)) {
-		assert.Equal(t, http.StatusCreated, rec.Code)
-	}
+	ctx := e.NewContext(req, rec)
+	sv := &Server{Storage: storage.FakeStorage{}}
+	c.Assert(sv.saveRecord(ctx), check.IsNil)
+	c.Assert(http.StatusCreated, check.Equals, rec.Code)
 }
