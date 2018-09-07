@@ -15,7 +15,7 @@ type Postgre struct {
 	db *sql.DB
 }
 
-func New() (postg *Postgre, err error) {
+func New() (postg Postgre, err error) {
 	dbname := os.Getenv("DB_NAME")
 	host := os.Getenv("DB_HOST")
 	user := os.Getenv("DB_USER")
