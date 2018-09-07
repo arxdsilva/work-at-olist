@@ -34,8 +34,8 @@ func New() (postg Postgre, err error) {
 }
 
 func (p Postgre) SaveRecord(r record.Record) (err error) {
-	query := "insert into records (id, r_type, time_stamp, call_id, r_source, destination, month) values ($1, $2, $3, $4, $5, $6, $7)"
-	_, err = p.db.Exec(query, r.ID, r.Type, r.TimeStamp, r.CallID, r.Source, r.Destination, r.Month)
+	query := "insert into records (id, r_type, time_stamp, call_id, r_source, destination, month, year) values ($1, $2, $3, $4, $5, $6, $7, $8)"
+	_, err = p.db.Exec(query, r.ID, r.Type, r.TimeStamp, r.CallID, r.Source, r.Destination, r.Month, r.Year)
 	return err
 }
 
