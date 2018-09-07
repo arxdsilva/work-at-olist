@@ -7,6 +7,8 @@ import (
 	"github.com/labstack/echo"
 )
 
+// SaveRecord implements the db insertion of data
+// provided by external sources
 func (s *Server) SaveRecord(c echo.Context) (err error) {
 	r := new(record.Record)
 	err = c.Bind(r)
