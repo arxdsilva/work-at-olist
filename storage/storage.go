@@ -6,4 +6,5 @@ import (
 
 type Storage interface {
 	SaveRecord(record.Record) error
+	UUIDFromStart(record.Record) (string, error)
 }
