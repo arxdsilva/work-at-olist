@@ -21,8 +21,8 @@ func New() *Server {
 func (s *Server) Listen() {
 	e := echo.New()
 	e.Use(middleware.Logger())
-	e.POST("/records", s.saveRecord)
-	e.GET("/bill/:number", s.bill)
+	e.POST("/records", s.SaveRecord)
+	e.GET("/bill/:number", s.Bill)
 	e.Logger.Fatal(e.Start(s.Port))
 }
 

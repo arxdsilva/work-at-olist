@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func (s *Server) bill(c echo.Context) (err error) {
+func (s *Server) Bill(c echo.Context) (err error) {
 	number := c.Param("number")
 	month := c.QueryParam("month")
 	return c.JSON(http.StatusOK, number+month)

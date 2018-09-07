@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func (s *Server) saveRecord(c echo.Context) (err error) {
+func (s *Server) SaveRecord(c echo.Context) (err error) {
 	r := new(record.Record)
 	err = c.Bind(r)
 	if err != nil {
