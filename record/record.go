@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strconv"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Record struct {
@@ -14,6 +16,7 @@ type Record struct {
 	Source      string `json:"source"`
 	Destination string `json:"destination"`
 	Month       int
+	Year        int
 }
 
 func (r *Record) DataChecks() (err error) {
@@ -37,6 +40,10 @@ func (r *Record) DataChecks() (err error) {
 		return
 	}
 	r.Month = int(t.Month())
+	r.Year = t.Year()
+	if r.Type == "start" {
+		r.ID = uuid.New().String()
+	}
 	return
 }
 
