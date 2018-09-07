@@ -11,15 +11,15 @@ func (s *Server) saveRecord(c echo.Context) (err error) {
 	r := new(record.Record)
 	err = c.Bind(r)
 	if err != nil {
-		return
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	err = r.DataChecks()
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	err = s.Storage.SaveRecord(*r)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusCreated, nil)
 }
