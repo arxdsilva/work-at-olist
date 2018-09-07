@@ -26,7 +26,7 @@ func (s *S) TestServer_saveRecord(c *check.C) {
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
 	sv := &Server{Storage: storage.FakeStorage{}}
-	c.Assert(sv.saveRecord(ctx), check.IsNil)
+	c.Assert(sv.SaveRecord(ctx), check.IsNil)
 	c.Assert(http.StatusCreated, check.Equals, rec.Code)
 }
 
@@ -45,5 +45,5 @@ func (s *S) TestServer_saveRecordWithInvalidData(c *check.C) {
 	rec := httptest.NewRecorder()
 	ctx := e.NewContext(req, rec)
 	sv := &Server{Storage: storage.FakeStorage{}}
-	c.Assert(sv.saveRecord(ctx), check.NotNil)
+	c.Assert(sv.SaveRecord(ctx), check.NotNil)
 }
