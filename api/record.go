@@ -17,6 +17,13 @@ func (s *Server) saveRecord(c echo.Context) (err error) {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+	if r.Type == "end" {
+		id, err := s.Storage.UUIDFromStart(*r)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+		r.ID = id
+	}
 	err = s.Storage.SaveRecord(*r)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
