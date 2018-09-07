@@ -21,5 +21,9 @@ func (s *Server) saveRecord(c echo.Context) (err error) {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusOK, r)
+	err = s.Storage.SaveRecord(*r)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	return c.JSON(http.StatusOK, nil)
 }
