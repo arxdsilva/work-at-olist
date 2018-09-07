@@ -3,6 +3,8 @@ package bill
 import (
 	"errors"
 	"math"
+	"os"
+	"strconv"
 	"time"
 )
 
@@ -36,7 +38,15 @@ func Calculate(start, end time.Time) (r float64, err error) {
 	}
 	timeUsed := end.Sub(start)
 	minutesUsed := timeUsed.Minutes()
-	r = round(0.36+(0.09*(minutesUsed-unbillableTime)), 100)
+	minRate, err := minuteRate()
+	if err != nil {
+		return
+	}
+	baseRate, err := baseRate()
+	if err != nil {
+		return
+	}
+	r = round(baseRate+(minRate*(minutesUsed-unbillableTime)), 100)
 	return r, err
 }
 
@@ -106,4 +116,20 @@ func unbillableTimeBetweenSE(s, e time.Time) float64 {
 
 func round(x, unit float64) float64 {
 	return math.Round(x*unit) / unit
+}
+
+func minuteRate() (rate float64, err error) {
+	r := os.Getenv("MIN_RATE")
+	if r == "" {
+		return 0.09, err
+	}
+	return strconv.ParseFloat(r, 32)
+}
+
+func baseRate() (rate float64, err error) {
+	r := os.Getenv("BASE_RATE")
+	if r == "" {
+		return 0.36, err
+	}
+	return strconv.ParseFloat(r, 32)
 }
