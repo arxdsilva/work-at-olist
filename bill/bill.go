@@ -2,6 +2,7 @@ package bill
 
 import (
 	"errors"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -10,9 +11,18 @@ import (
 
 type Bill struct {
 	ID               string `json:"omitempty"`
-	SubscriberNumber int    `json:"subscriber"`
-	Month            string `json:"reference_period"` // only after it has ended
+	SubscriberNumber string `json:"subscriber"`
+	Month            string `json:"month"` // only after it has ended (not current month)
+	Year             string `json:"year"`
 	Calls            []Call `json:"calls"`
+}
+
+func New(month, year, subNumber string) (b Bill) {
+	b.ID = fmt.Sprintf("%s:%s:%s", subNumber, month, year)
+	b.Month = month
+	b.Year = year
+	b.SubscriberNumber = subNumber
+	return
 }
 
 // Calculate makes the math
