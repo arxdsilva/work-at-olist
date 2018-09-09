@@ -9,8 +9,10 @@ import (
 // Bill calculates a specific bill of a subscriber
 // If a month is not specified, It'll be the last
 // closed month
+// month and year are strings of integers
 func (s *Server) Bill(c echo.Context) (err error) {
-	number := c.Param("number")
+	sub := c.Param("subscriber")
 	month := c.QueryParam("month")
-	return c.JSON(http.StatusOK, number+month)
+	year := c.QueryParam("year")
+	return c.JSON(http.StatusOK, sub+month+year)
 }
