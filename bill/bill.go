@@ -9,6 +9,7 @@ import (
 )
 
 type Bill struct {
+	ID               string `json:"omitempty"`
 	SubscriberNumber int    `json:"subscriber"`
 	Month            string `json:"reference_period"` // only after it has ended
 	Calls            []Call `json:"calls"`

@@ -1,6 +1,7 @@
 package bill
 
 type Call struct {
+	BillID        string
 	Destination   int     `json:"destination"`
 	CallStartDate int     `json:"start_date"`
 	CallStartTime string  `json:"start_time"`
