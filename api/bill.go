@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -43,7 +44,8 @@ func (s *Server) Bill(c echo.Context) (err error) {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	calls, err := callsFromRecords(records, m)
+	bill.ID = fmt.Sprintf("%s%v%s", sub, month, year)
+	calls, err := callsFromRecords(records, m, bill.ID)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
@@ -51,13 +53,14 @@ func (s *Server) Bill(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, bill)
 }
 
-func callsFromRecords(rs []record.Record, monthOfReference int) (cs []bill.Call, err error) {
+func callsFromRecords(rs []record.Record, monthOfReference int, billID string) (cs []bill.Call, err error) {
 	f := filterRecordsPeriod(rs, monthOfReference)
 	for _, v := range f {
 		c, errC := callFromRecords(v)
 		if errC != nil {
 			return nil, errC
 		}
+		c.BillID = billID
 		cs = append(cs, c)
 	}
 	return
