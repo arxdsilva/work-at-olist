@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -82,12 +81,11 @@ func callFromRecords(rs []record.Record) (c bill.Call, err error) {
 		return
 	}
 	duration := endTime.Sub(startTime)
-	startTimeFormated := fmt.Sprintf("%v:%v:%v", startTime.Hour(), startTime.Minute(), startTime.Second())
 	c.CallPrice = price
 	c.CallStartDate = startTime.Day()
 	c.Destination = buff["start"].Destination
-	c.CallStartTime = startTimeFormated
-	c.CallDuration = fmt.Sprintf("%vh%vm%vs", duration.Hours(), duration.Minutes(), duration.Seconds())
+	c.CallStartTime = startTime.Format(time.Kitchen)
+	c.CallDuration = duration.String()
 	return
 }
 
