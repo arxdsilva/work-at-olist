@@ -68,3 +68,20 @@ func (p Postgres) CallsFromBillID(id string) (cs []bill.Call, err error) {
 	}
 	return
 }
+
+func (p Postgres) RecordsFromBill(b bill.Bill) (rs []record.Record, err error) {
+	query := "select r_type, time_stamp, r_source, destination from records where r_month = $1 and r_year = $2 and r_source = $3"
+	rows, err := p.db.Query(query, b.Month, b.Year, b.SubscriberNumber)
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		r := new(record.Record)
+		if err = rows.Scan(&r.Type, &r.TimeStamp, &r.Source, &r.Destination); err != nil {
+			return
+		}
+		rs = append(rs, *r)
+	}
+	return
+}

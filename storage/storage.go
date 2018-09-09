@@ -10,4 +10,5 @@ type Storage interface {
 	UUIDFromStart(record.Record) (string, error)
 	BillFromID(string) (bill.Bill, error)
 	CallsFromBillID(string) ([]bill.Call, error)
+	RecordsFromBill(bill.Bill) ([]record.Record, error)
 }
