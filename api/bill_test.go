@@ -1,8 +1,6 @@
 package api
 
 import (
-	"testing"
-
 	"github.com/arxdsilva/olist/record"
 	check "gopkg.in/check.v1"
 )
@@ -49,7 +47,82 @@ func (s *S) Test_callFromRecords(c *check.C) {
 	c.Assert(call.Destination, check.Equals, "2199999999")
 }
 
-func Test_callsFromRecords(t *testing.T) {
+func (s *S) Test_callsFromRecordsForWrongPeriod(c *check.C) {
+	records := []record.Record{
+		record.Record{
+			CallID:      "123",
+			Type:        "start",
+			TimeStamp:   "2016-02-29T14:00:00Z",
+			Destination: "2199999999",
+			Month:       2,
+		},
+		record.Record{
+			CallID:      "123",
+			Type:        "end",
+			TimeStamp:   "2016-02-29T14:03:00Z",
+			Destination: "2199999999",
+			Month:       2,
+		},
+	}
+	calls, err := callsFromRecords(records, 1, "")
+	c.Assert(err, check.IsNil)
+	c.Assert(len(calls), check.Equals, 0)
+}
 
-	calls, err := callsFromRecords(tt.args.rs, tt.args.monthOfReference)
+func (s *S) Test_callsFromRecordsSingleRecord(c *check.C) {
+	records := []record.Record{
+		record.Record{
+			CallID:      "123",
+			Type:        "start",
+			TimeStamp:   "2016-02-29T14:00:00Z",
+			Destination: "2199999999",
+			Month:       2,
+		},
+		record.Record{
+			CallID:      "123",
+			Type:        "end",
+			TimeStamp:   "2016-02-29T14:03:00Z",
+			Destination: "2199999999",
+			Month:       2,
+		},
+	}
+	calls, err := callsFromRecords(records, 2, "")
+	c.Assert(err, check.IsNil)
+	c.Assert(len(calls), check.Equals, 1)
+}
+
+func (s *S) Test_callsFromRecordsMultipleRecords(c *check.C) {
+	records := []record.Record{
+		record.Record{
+			CallID:      "123",
+			Type:        "start",
+			TimeStamp:   "2016-02-29T14:00:00Z",
+			Destination: "2199999999",
+			Month:       2,
+		},
+		record.Record{
+			CallID:      "123",
+			Type:        "end",
+			TimeStamp:   "2016-02-29T14:03:00Z",
+			Destination: "2199999999",
+			Month:       2,
+		},
+		record.Record{
+			CallID:      "124",
+			Type:        "start",
+			TimeStamp:   "2016-02-03T14:00:00Z",
+			Destination: "2199999999",
+			Month:       2,
+		},
+		record.Record{
+			CallID:      "124",
+			Type:        "end",
+			TimeStamp:   "2016-02-03T14:03:00Z",
+			Destination: "2199999999",
+			Month:       2,
+		},
+	}
+	calls, err := callsFromRecords(records, 2, "")
+	c.Assert(err, check.IsNil)
+	c.Assert(len(calls), check.Equals, 2)
 }
