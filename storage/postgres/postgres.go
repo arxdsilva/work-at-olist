@@ -48,12 +48,12 @@ func (p Postgres) UUIDFromStart(r record.Record) (uuid string, err error) {
 }
 
 func (p Postgres) BillFromID(id string) (b bill.Bill, err error) {
-	query := "select id, sub_number, b_month, b_year from bills where bill_id = $1"
+	query := "select bill_id, sub_number, b_month, b_year from bills where bill_id = $1"
 	return b, p.db.QueryRow(query, id).Scan(&b.ID, &b.SubscriberNumber, &b.Month, &b.Year)
 }
 
 func (p Postgres) CallsFromBillID(id string) (cs []bill.Call, err error) {
-	query := "select destination, start_date, start_time, c_duration, c_price from calls where bill_id = $1"
+	query := "select destination, start_date, start_time, duration, price from calls where bill_id = $1"
 	rows, err := p.db.Query(query, id)
 	if err != nil {
 		return
@@ -70,24 +70,36 @@ func (p Postgres) CallsFromBillID(id string) (cs []bill.Call, err error) {
 }
 
 func (p Postgres) RecordsFromBill(b bill.Bill) (rs []record.Record, err error) {
-	query := "select r_type, time_stamp, r_source, destination, call_id, r_month from records where r_month = $1 and r_year = $2 and r_source = $3"
+	query := "select r_type, time_stamp, r_source, destination, call_id, r_month, id from records where r_month = $1 and r_year = $2 and r_source = $3"
 	rows, err := p.db.Query(query, b.Month, b.Year, b.SubscriberNumber)
 	if err != nil {
 		return
 	}
+	var buff []record.Record
 	defer rows.Close()
 	for rows.Next() {
 		r := new(record.Record)
-		if err = rows.Scan(&r.Type, &r.TimeStamp, &r.Source, &r.Destination, &r.CallID, &r.Month); err != nil {
+		if err = rows.Scan(&r.Type, &r.TimeStamp, &r.Source, &r.Destination, &r.CallID, &r.Month, &r.ID); err != nil {
 			return
 		}
 		rs = append(rs, *r)
+		buff = append(buff, *r)
+	}
+	for _, r := range buff {
+		var endr record.Record
+		query = "select r_type, time_stamp, r_source, destination, call_id, r_month from records where r_month = $1 and r_year = $2 and id = $3"
+		row := p.db.QueryRow(query, b.Month, b.Year, r.ID)
+		err = row.Scan(&endr.Type, &endr.TimeStamp, &endr.Source, &endr.Destination, &endr.CallID, &endr.Month)
+		if err != nil {
+			return
+		}
+		rs = append(rs, endr)
 	}
 	return
 }
 
 func (p Postgres) SaveBill(b bill.Bill) (err error) {
-	query := "insert into bills (b_id, b_month, b_year, b_subscriber) values ($1, $2, $3, $4)"
+	query := "insert into bills (bill_id, b_month, b_year, sub_number) values ($1, $2, $3, $4)"
 	_, err = p.db.Exec(query, b.ID, b.Month, b.Year, b.SubscriberNumber)
 	return
 }
