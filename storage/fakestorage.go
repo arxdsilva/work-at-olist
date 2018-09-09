@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"github.com/arxdsilva/olist/bill"
 	"github.com/arxdsilva/olist/record"
 )
 
@@ -14,5 +15,9 @@ func (f FakeStorage) SaveRecord(r record.Record) (err error) {
 }
 
 func (f FakeStorage) UUIDFromStart(r record.Record) (uuid string, err error) {
+	return
+}
+
+func (f FakeStorage) BillFromID(id string) (b bill.Bill, err error) {
 	return
 }
