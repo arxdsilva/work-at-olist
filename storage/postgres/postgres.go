@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/arxdsilva/olist/bill"
 	"github.com/arxdsilva/olist/record"
 
 	// pq is the postgres driver
@@ -44,4 +45,9 @@ func (p Postgres) UUIDFromStart(r record.Record) (uuid string, err error) {
 	row := p.db.QueryRow(query, r.CallID)
 	err = row.Scan(&uuid)
 	return uuid, err
+}
+
+func (p Postgres) BillFromID(id string) (b bill.Bill, err error) {
+
+	return
 }
