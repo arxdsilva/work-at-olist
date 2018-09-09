@@ -24,3 +24,19 @@ func (s *S) Test_filterRecordsPeriodFilteringRecord(c *check.C) {
 	gotRFiltered := filterRecordsPeriod(r, 1)
 	c.Assert(len(gotRFiltered), check.Equals, 1)
 }
+
+func (s *S) Test_callFromRecords(c *check.C) {
+	records := []record.Record{
+		record.Record{
+			Type:      "start",
+			TimeStamp: "2016-02-29T14:00:00Z",
+		},
+		record.Record{
+			Type:      "end",
+			TimeStamp: "2016-02-29T14:03:00Z",
+		},
+	}
+	call, err := callFromRecords(records)
+	c.Assert(err, check.IsNil)
+	c.Assert(call.CallPrice, check.Equals, 0.63)
+}
