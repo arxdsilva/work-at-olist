@@ -9,6 +9,12 @@
 			"revisionTime": "2018-03-08T23:13:08Z"
 		},
 		{
+			"checksumSHA1": "uFNLkTxk8BkHTk0Jcub2lj2BX4M=",
+			"path": "github.com/google/uuid",
+			"revision": "dec09d789f3dba190787f8b4454c7d3c936fed9e",
+			"revisionTime": "2017-11-29T19:10:14Z"
+		},
+		{
 			"checksumSHA1": "RePlXeZMSsVXOHzWmm+fbTf+Vaw=",
 			"path": "github.com/labstack/echo",
 			"revision": "90822319eb6169d1184277248322edaacd11cdde",
