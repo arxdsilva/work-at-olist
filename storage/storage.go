@@ -7,6 +7,8 @@ import (
 
 type Storage interface {
 	SaveRecord(record.Record) error
+	SaveCalls([]bill.Call) error
+	SaveBill(bill.Bill) error
 	UUIDFromStart(record.Record) (string, error)
 	BillFromID(string) (bill.Bill, error)
 	CallsFromBillID(string) ([]bill.Call, error)

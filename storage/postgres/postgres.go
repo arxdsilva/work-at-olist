@@ -37,7 +37,7 @@ func New() (postg Postgres, err error) {
 func (p Postgres) SaveRecord(r record.Record) (err error) {
 	query := "insert into records (id, r_type, time_stamp, call_id, r_source, destination, r_month, r_year) values ($1, $2, $3, $4, $5, $6, $7, $8)"
 	_, err = p.db.Exec(query, r.ID, r.Type, r.TimeStamp, r.CallID, r.Source, r.Destination, r.Month, r.Year)
-	return err
+	return
 }
 
 func (p Postgres) UUIDFromStart(r record.Record) (uuid string, err error) {
@@ -82,6 +82,23 @@ func (p Postgres) RecordsFromBill(b bill.Bill) (rs []record.Record, err error) {
 			return
 		}
 		rs = append(rs, *r)
+	}
+	return
+}
+
+func (p Postgres) SaveBill(b bill.Bill) (err error) {
+	query := "insert into bills (b_id, b_month, b_year, b_subscriber) values ($1, $2, $3, $4)"
+	_, err = p.db.Exec(query, b.ID, b.Month, b.Year, b.SubscriberNumber)
+	return
+}
+
+func (p Postgres) SaveCalls(calls []bill.Call) (err error) {
+	for _, call := range calls {
+		query := "insert into calls (id, r_type, time_stamp, call_id, r_source, destination, r_month, r_year) values ($1, $2, $3, $4, $5, $6, $7, $8)"
+		_, err = p.db.Exec(query, call.BillID, call.CallDuration, call.CallPrice, call.CallStartDate, call.CallStartTime, call.Destination)
+		if err != nil {
+			return
+		}
 	}
 	return
 }

@@ -29,3 +29,11 @@ func (f FakeStorage) CallsFromBillID(id string) (cs []bill.Call, err error) {
 func (f FakeStorage) RecordsFromBill(b bill.Bill) (rs []record.Record, err error) {
 	return
 }
+
+func (f FakeStorage) SaveBill(b bill.Bill) (err error) {
+	return
+}
+
+func (f FakeStorage) SaveCalls(c []bill.Call) (err error) {
+	return
+}
