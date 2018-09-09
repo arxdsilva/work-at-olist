@@ -48,6 +48,6 @@ func (p Postgres) UUIDFromStart(r record.Record) (uuid string, err error) {
 }
 
 func (p Postgres) BillFromID(id string) (b bill.Bill, err error) {
-
-	return
+	query := "select id, sub_number, b_month, b_year from bills where bill_id = $1"
+	return b, p.db.QueryRow(query, id).Scan(&b.ID, &b.SubscriberNumber, &b.Month, &b.Year)
 }
