@@ -11,11 +11,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type Postgre struct {
+type Postgres struct {
 	db *sql.DB
 }
 
-func New() (postg Postgre, err error) {
+func New() (postg Postgres, err error) {
 	dbname := os.Getenv("DB_NAME")
 	host := os.Getenv("DB_HOST")
 	user := os.Getenv("DB_USER")
@@ -33,13 +33,13 @@ func New() (postg Postgre, err error) {
 	return
 }
 
-func (p Postgre) SaveRecord(r record.Record) (err error) {
+func (p Postgres) SaveRecord(r record.Record) (err error) {
 	query := "insert into records (id, r_type, time_stamp, call_id, r_source, destination, r_month, r_year) values ($1, $2, $3, $4, $5, $6, $7, $8)"
 	_, err = p.db.Exec(query, r.ID, r.Type, r.TimeStamp, r.CallID, r.Source, r.Destination, r.Month, r.Year)
 	return err
 }
 
-func (p Postgre) UUIDFromStart(r record.Record) (uuid string, err error) {
+func (p Postgres) UUIDFromStart(r record.Record) (uuid string, err error) {
 	query := "select id from records where call_id = $1"
 	row := p.db.QueryRow(query, r.CallID)
 	err = row.Scan(&uuid)
