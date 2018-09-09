@@ -26,6 +26,15 @@ func New(month, year, subNumber string) (b Bill) {
 	return
 }
 
+func (b *Bill) CalculateTotalPrice() {
+	var total float64
+	for _, v := range b.Calls {
+		total += v.CallPrice
+	}
+	b.Total = total
+	return
+}
+
 // Calculate makes the math
 // of the time to be charged by the telephone records
 // 600 > 2200: 0.36 + 0.09/min
