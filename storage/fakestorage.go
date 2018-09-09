@@ -21,3 +21,7 @@ func (f FakeStorage) UUIDFromStart(r record.Record) (uuid string, err error) {
 func (f FakeStorage) BillFromID(id string) (b bill.Bill, err error) {
 	return
 }
+
+func (f FakeStorage) CallsFromBillID(id string) (cs []bill.Call, err error) {
+	return
+}
