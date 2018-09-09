@@ -94,7 +94,7 @@ func (p Postgres) SaveBill(b bill.Bill) (err error) {
 
 func (p Postgres) SaveCalls(calls []bill.Call) (err error) {
 	for _, call := range calls {
-		query := "insert into calls (id, r_type, time_stamp, call_id, r_source, destination, r_month, r_year) values ($1, $2, $3, $4, $5, $6, $7, $8)"
+		query := "insert into calls (bill_id, duration, price, start_date, start_time, destination) values ($1, $2, $3, $4, $5, $6)"
 		_, err = p.db.Exec(query, call.BillID, call.CallDuration, call.CallPrice, call.CallStartDate, call.CallStartTime, call.Destination)
 		if err != nil {
 			return
