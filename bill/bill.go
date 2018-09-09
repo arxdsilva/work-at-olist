@@ -10,7 +10,7 @@ import (
 )
 
 type Bill struct {
-	ID               string `json:"omitempty"`
+	ID               string `json:"id"`
 	SubscriberNumber string `json:"subscriber"`
 	Month            string `json:"month"` // only after it has ended (not current month)
 	Year             string `json:"year"`
@@ -18,7 +18,7 @@ type Bill struct {
 }
 
 func New(month, year, subNumber string) (b Bill) {
-	b.ID = fmt.Sprintf("%s:%s:%s", subNumber, month, year)
+	b.ID = fmt.Sprintf("%s%s%s", subNumber, month, year)
 	b.Month = month
 	b.Year = year
 	b.SubscriberNumber = subNumber
