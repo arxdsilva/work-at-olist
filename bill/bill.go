@@ -10,11 +10,12 @@ import (
 )
 
 type Bill struct {
-	ID               string `json:"id"`
-	SubscriberNumber string `json:"subscriber"`
-	Month            string `json:"month"` // only after it has ended (not current month)
-	Year             string `json:"year"`
-	Calls            []Call `json:"calls"`
+	ID               string  `json:"id"`
+	SubscriberNumber string  `json:"subscriber"`
+	Month            string  `json:"month"` // only after it has ended (not current month)
+	Year             string  `json:"year"`
+	Calls            []Call  `json:"calls"`
+	Total            float64 `json:"total"`
 }
 
 func New(month, year, subNumber string) (b Bill) {
