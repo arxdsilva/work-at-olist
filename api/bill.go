@@ -21,8 +21,8 @@ func (s *Server) Bill(c echo.Context) (err error) {
 	month := c.QueryParam("month")
 	year := c.QueryParam("year")
 	if (month == "") || (year == "") {
-		month = string(time.Now().Month() - 1)
-		year = string(time.Now().Year())
+		month = string(strconv.Itoa(int(time.Now().Month() - 1)))
+		year = string(strconv.Itoa(time.Now().Year()))
 	}
 	bill := bill.New(month, year, sub)
 	storedBill, err := s.Storage.BillFromID(bill.ID)
