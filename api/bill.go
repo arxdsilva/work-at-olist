@@ -58,6 +58,7 @@ func (s *Server) Bill(c echo.Context) (err error) {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
+	bill.CalculateTotalPrice()
 	err = s.Storage.SaveBill(bill)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
