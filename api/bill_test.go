@@ -1,6 +1,8 @@
 package api
 
 import (
+	"testing"
+
 	"github.com/arxdsilva/olist/record"
 	check "gopkg.in/check.v1"
 )
@@ -45,4 +47,9 @@ func (s *S) Test_callFromRecords(c *check.C) {
 	c.Assert(call.CallStartDate, check.Equals, 29)
 	c.Assert(call.CallStartTime, check.Equals, "2:00PM")
 	c.Assert(call.Destination, check.Equals, "2199999999")
+}
+
+func Test_callsFromRecords(t *testing.T) {
+
+	calls, err := callsFromRecords(tt.args.rs, tt.args.monthOfReference)
 }

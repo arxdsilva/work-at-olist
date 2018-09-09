@@ -43,7 +43,7 @@ func (s *Server) Bill(c echo.Context) (err error) {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	calls, err := calculateCallsPriceFromRecords(records, m)
+	calls, err := callsFromRecords(records, m)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
@@ -51,7 +51,7 @@ func (s *Server) Bill(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, bill)
 }
 
-func calculateCallsPriceFromRecords(rs []record.Record, monthOfReference int) (cs []bill.Call, err error) {
+func callsFromRecords(rs []record.Record, monthOfReference int) (cs []bill.Call, err error) {
 	f := filterRecordsPeriod(rs, monthOfReference)
 	for _, v := range f {
 		c, errC := callFromRecords(v)
