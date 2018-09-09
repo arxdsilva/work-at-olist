@@ -65,7 +65,7 @@ func calculateCallsPriceFromRecords(rs []record.Record, monthOfReference int) (c
 }
 
 func callFromRecords(rs []record.Record) (c bill.Call, err error) {
-	var buff map[string]record.Record
+	buff := make(map[string]record.Record)
 	for _, v := range rs {
 		buff[v.Type] = v
 	}
