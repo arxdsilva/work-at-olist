@@ -87,7 +87,7 @@ func (p Postgres) RecordsFromBill(b bill.Bill) (rs []record.Record, err error) {
 	}
 	for _, r := range buff {
 		var endr record.Record
-		query = "select r_type, time_stamp, r_source, destination, call_id, r_month from records where r_month = $1 and r_year = $2 and id = $3"
+		query = "select r_type, time_stamp, r_source, destination, call_id, r_month from records where r_type = 'end' and r_month = $1 and r_year = $2 and id = $3"
 		row := p.db.QueryRow(query, b.Month, b.Year, r.ID)
 		err = row.Scan(&endr.Type, &endr.TimeStamp, &endr.Source, &endr.Destination, &endr.CallID, &endr.Month)
 		if err != nil {
@@ -99,8 +99,8 @@ func (p Postgres) RecordsFromBill(b bill.Bill) (rs []record.Record, err error) {
 }
 
 func (p Postgres) SaveBill(b bill.Bill) (err error) {
-	query := "insert into bills (bill_id, b_month, b_year, sub_number) values ($1, $2, $3, $4)"
-	_, err = p.db.Exec(query, b.ID, b.Month, b.Year, b.SubscriberNumber)
+	query := "insert into bills (bill_id, b_month, b_year, sub_number, total) values ($1, $2, $3, $4, $5)"
+	_, err = p.db.Exec(query, b.ID, b.Month, b.Year, b.SubscriberNumber, b.Total)
 	return
 }
 
