@@ -50,6 +50,14 @@ func (s *Server) Bill(c echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	bill.Calls = calls
+	err = s.Storage.SaveCalls(calls)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+	err = s.Storage.SaveBill(bill)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
 	return c.JSON(http.StatusOK, bill)
 }
 
