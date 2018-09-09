@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -34,6 +35,9 @@ func (s *Server) Bill(c echo.Context) (err error) {
 		}
 		storedBill.Calls = calls
 		return c.JSON(http.StatusOK, storedBill)
+	}
+	if err != sql.ErrNoRows {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	// create new bill
 	records, err := s.Storage.RecordsFromBill(bill)
