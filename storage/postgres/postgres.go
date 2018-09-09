@@ -51,3 +51,20 @@ func (p Postgres) BillFromID(id string) (b bill.Bill, err error) {
 	query := "select id, sub_number, b_month, b_year from bills where bill_id = $1"
 	return b, p.db.QueryRow(query, id).Scan(&b.ID, &b.SubscriberNumber, &b.Month, &b.Year)
 }
+
+func (p Postgres) CallsFromBillID(id string) (cs []bill.Call, err error) {
+	query := "select destination, start_date, start_time, c_duration, c_price from calls where bill_id = $1"
+	rows, err := p.db.Query(query, id)
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		c := new(bill.Call)
+		if err = rows.Scan(&c.Destination, &c.CallStartDate, &c.CallStartTime, &c.CallDuration, &c.CallPrice); err != nil {
+			return
+		}
+		cs = append(cs, *c)
+	}
+	return
+}
