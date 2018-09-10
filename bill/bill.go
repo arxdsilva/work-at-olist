@@ -67,7 +67,8 @@ func Calculate(start, end time.Time) (r float64, err error) {
 	if err != nil {
 		return
 	}
-	r = round(baseRate+(minRate*(minutesUsed-unbillableTime)), 100)
+	fullMinutesUsed := float64(int(minutesUsed - unbillableTime))
+	r = round(baseRate+(minRate*(fullMinutesUsed)), 100)
 	return r, err
 }
 
