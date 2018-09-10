@@ -130,9 +130,15 @@ func unbHoursBetweenStartAndEnd(s, e time.Time) bool {
 	return false
 }
 
-func unbillableTimeBetweenSE(s, e time.Time) float64 {
+func unbillableTimeBetweenSE(s, e time.Time) (u float64) {
 	days := e.Day() - s.Day()
-	return float64(days * 8 * 60)
+	u += float64(days * 8 * 60)
+	unbillableTimeEnd := time.Date(e.Year(), e.Month(), e.Day(), 22, 0, 0, 0, time.UTC)
+	if e.After(unbillableTimeEnd) {
+		duration := e.Sub(unbillableTimeEnd)
+		u += duration.Minutes()
+	}
+	return
 }
 
 func round(x, unit float64) float64 {
