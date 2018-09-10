@@ -28,7 +28,7 @@ func (s *Server) Listen() {
 }
 
 func port() (p string) {
-	if p = os.Getenv("ADDRS_PORT"); p != "" {
+	if p = os.Getenv("PORT"); p != "" {
 		return fmt.Sprintf(":%s", p)
 	}
 	return ":8080"
