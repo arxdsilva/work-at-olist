@@ -79,6 +79,14 @@ This route responds always a JSON with an error or with the bill for the month/y
 
 Responses: 200, 400, 500
 
+## Local development
+
+In order to run this app locally, you'll need to run the following command with your postgres credentials:
+
+```
+    $ ➜  olist git:(master) ✗ DB_NAME=****** DB_HOST=localhost DB_USER=****** DB_PASS=****** go run main.go
+```
+
 ## Development Environment
 
 - Hardware: Asus g75vw
