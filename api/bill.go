@@ -17,6 +17,10 @@ import (
 // If a month is not specified, It'll be the last
 // closed month
 // month and year are strings of integers
+// Responses:
+// 200 OK
+// 400 Bad Request
+// 500 Internal Server Error
 func (s *Server) Bill(c echo.Context) (err error) {
 	sub := c.Param("subscriber")
 	month := c.QueryParam("month")

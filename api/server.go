@@ -34,6 +34,9 @@ func port() (p string) {
 	return ":8080"
 }
 
+// Healthcheck is a simple handler that provides the API live status
+// Response:
+// 200 OK
 func (s *Server) HealthCheck(c echo.Context) (err error) {
 	return c.HTML(200, "OK")
 }

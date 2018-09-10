@@ -9,6 +9,10 @@ import (
 
 // SaveRecord implements the db insertion of data
 // provided by external sources
+// Responses:
+// 201 Created
+// 400 Bad Request
+// 500 Internal Server Error
 func (s *Server) SaveRecord(c echo.Context) (err error) {
 	r := new(record.Record)
 	err = c.Bind(r)
